@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS alx_book_store;
 
-CREATE  TABLE  AUTHORS (
+CREATE  TABLE  authors (
         author_id INT Primary Key,
         author_name VARCHAR(215)
 );
