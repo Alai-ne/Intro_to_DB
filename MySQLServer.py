@@ -1,37 +1,32 @@
 import mysql.connector
 from mysql.connector import errorcode
 
-def create_database():
-    """Creates the alx_book_store database if it doesn't exist."""
-    config = {
-        'user': 'root',
-        'password': '',
-        'host': '127.0.0.1',
-        'raise_on_warnings': True
-    }
+DB_NAME = 'alx_book_store'
 
-    cnx = None
-    cursor = None
-    DB_NAME = 'alx_book_store'
+try:
+    # Connect to the MySQL server
+    conn = mysql.connector.connect(
+        user='Alai-ne',
+        password='',
+        host='127.0.0.1' # Assuming local server
+    )
+    cursor = conn.cursor()
+    create_database_query = f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"
 
-    try:
-        cnx = mysql.connector.connect(**config)
-        cursor = cnx.cursor()
-        print("Connected to MySQL server successfully!")
+    cursor.execute(create_database_query)
+    print(f"Database '{DB_NAME}' created successfully!")
 
-        create_db_query = f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"
-        cursor.execute(create_db_query)
-        
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Error: Access denied. Check your username and password.")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Error: Database does not exist.")
-        else:
-            print(f"Error connecting to the DB: {err}")
-    finally:
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
-            print("Database connection clsed")
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print("Error: Access denied. Check your username and password.")
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+        print("Error: Database does not exist.")
+    else:
+        print(f"Error connecting to the DB: {err}")
+
+finally:
+    if 'cursor' in locals() and cursor is not None:
+        cursor.close()
+    if 'conn' in locals() and conn is not None and conn.is_connected():
+        conn.close()
+
