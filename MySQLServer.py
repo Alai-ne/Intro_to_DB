@@ -5,6 +5,7 @@ DB_NAME = 'alx_book_store'
 
 def create_database():
     """Creates the alx_book_store database in MySQL server."""
+    CREATE DATABASE IF NOT EXISTS alx_book_store;
     cnx = None
     cursor = None
     try:
