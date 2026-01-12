@@ -10,4 +10,4 @@ FROM
 WHERE
     TABLE_SCHEMA = DATABASE()
 AND
-    TABLE_NAME = 'books';
+    TABLE_NAME = 'Books';
