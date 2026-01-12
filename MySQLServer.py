@@ -3,30 +3,31 @@ from mysql.connector import errorcode
 
 DB_NAME = 'alx_book_store'
 
-try:
-    # Connect to the MySQL server
-    conn = mysql.connector.connect(
-        user='Alai-ne',
-        password='',
-        host='127.0.0.1' # Assuming local server
-    )
-    cursor = conn.cursor()
-    create_database_query = f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"
+def create_database():
+    """Creates the alx_book_store database in MySQL server."""
+    cnx = None
+    cursor = None
+    try:
+        cnx = mysql.connector.connect(
+            user='root',  
+            password='Girama!@12A',  
+            host='127.0.0.1'
+        )
+        cursor = cnx.cursor()
 
-    cursor.execute(create_database_query)
-    print(f"Database '{DB_NAME}' created successfully!")
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {Alx_book_store}")
+        print(f"Database '{Alx_book_store}' created successfully!")
 
-except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-        print("Error: Access denied. Check your username and password.")
-    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-        print("Error: Database does not exist.")
-    else:
-        print(f"Error connecting to the DB: {err}")
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Error: Invalid username or password")
+        else:
+            print(f"Error connecting to DB: {err}")
+    finally:
+        if cursor:
+            cursor.close()
+        if cnx and cnx.is_connected():
+            cnx.close()
 
-finally:
-    if 'cursor' in locals() and cursor is not None:
-        cursor.close()
-    if 'conn' in locals() and conn is not None and conn.is_connected():
-        conn.close()
-
+if __name__ == "__main__":
+    create_database()
